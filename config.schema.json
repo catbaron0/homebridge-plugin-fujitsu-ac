@@ -1,5 +1,5 @@
 {
-  "pluginAlias": "ExampleHomebridgePlugin",
+  "pluginAlias": "FujitsuAC",
   "pluginType": "platform",
   "singular": true,
   "schema": {
