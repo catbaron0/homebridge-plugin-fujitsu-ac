@@ -50,15 +50,28 @@ export class FujitsuACAccessory {
       .onGet(this.handleTargetHeaterCoolerStateGet.bind(this))
       .onSet(this.handleTargetHeaterCoolerStateSet.bind(this));
 
-    this.service.getCharacteristic(this.platform.Characteristic.CurrentTemperature)
-      .onGet(this.handleCurrentTemperatureGet.bind(this));
-    this.updateTempe();
+    // this.service.getCharacteristic(this.platform.Characteristic.CurrentTemperature)
+    //   .onGet(this.handleCurrentTemperatureGet.bind(this));
 
+    setInterval(() => {
+
+      const api_url = this.platform.config.api_url + '/sensors/tphb';
+      this.platform.log.info('Reading sensors from:' + api_url);
+
+      axios.get(api_url)
+        .then((res) => {
+          const data = res.data;
+          this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, data.tempe);
+        })
+        .catch((error) => {
+          this.platform.log.error(error);
+        });
+    }, 10000);
   }
 
   async updateTempe() {
     const api_url = this.platform.config.api_url + '/sensors/tphb';
-    this.platform.log.info('TV API:' + api_url);
+    this.platform.log.info('API:' + api_url);
     axios.get(api_url)
       .then((res) => {
         const data = res.data;
@@ -72,7 +85,7 @@ export class FujitsuACAccessory {
 
   async acApi(arg: string) {
     const api_url = this.platform.config.api_url + '/ac/' + arg;
-    this.platform.log.info('TV API:' + api_url);
+    this.platform.log.info('API:' + api_url);
     axios.get(api_url)
       .then((res) => {
         this.platform.log.info(res.data);
@@ -111,7 +124,6 @@ export class FujitsuACAccessory {
   async handleActiveGet(): Promise<CharacteristicValue> {
     // implement your own code to check if the device is on
     const activeState = this.isActive;
-    this.updateTempe();
 
     this.platform.log.debug('Get Characteristic activeState ->', activeState);
 
@@ -127,7 +139,6 @@ export class FujitsuACAccessory {
   async handleCurrentHeaterCoolerStateGet() {
     this.platform.log.debug('Triggered GET CurrentHeaterCoolerState');
 
-    this.updateTempe();
     // set this to a valid value for CurrentHeaterCoolerState
     const currentValue = this.platform.Characteristic.CurrentHeaterCoolerState.INACTIVE;
     return currentValue;
@@ -140,7 +151,6 @@ export class FujitsuACAccessory {
   async handleTargetHeaterCoolerStateGet() {
     this.platform.log.debug('Triggered GET TargetHeaterCoolerState');
 
-    this.updateTempe();
     // set this to a valid value for TargetHeaterCoolerState
     const currentValue = this.platform.Characteristic.TargetHeaterCoolerState.AUTO;
     return currentValue;
@@ -151,19 +161,19 @@ export class FujitsuACAccessory {
    */
   async handleTargetHeaterCoolerStateSet(value) {
     this.platform.log.debug('Triggered SET TargetHeaterCoolerState:', value);
-    this.updateTempe();
   }
 
   /**
    * Handle requests to get the current value of the "Current Temperature" characteristic
    */
-  async handleCurrentTemperatureGet() {
-    this.platform.log.debug('Triggered GET CurrentTemperature');
+  // async handleCurrentTemperatureGet() {
+  //   this.platform.log.debug('Triggered GET CurrentTemperature');
 
-    // set this to a valid value for CurrentTemperature
-    await this.updateTempe();
-    return this.tempe;
+  //   // set this to a valid value for CurrentTemperature
+  //   await this.updateTempe();
+  //   return this.tempe;
 
-  }
+  // }
+
 
 }
