@@ -1,7 +1,7 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 
-import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
-import { FujitsuACAccessory } from './platformAccessory';
+import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
+import { FujitsuACAccessory } from './platformAccessory.js';
 
 /**
  * HomebridgePlatform

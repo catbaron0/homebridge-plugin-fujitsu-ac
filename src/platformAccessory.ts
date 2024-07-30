@@ -1,5 +1,5 @@
 import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
-import { FujitsuAC } from './platform';
+import { FujitsuAC } from './platform.js';
 import axios from 'axios';
 
 /**

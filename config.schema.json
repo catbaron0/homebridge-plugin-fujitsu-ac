@@ -1,6 +1,6 @@
 {
   "pluginAlias": "FujitsuAC",
-  "pluginType": "platform",
+  "pluginType": "accessory",
   "singular": true,
   "schema": {
     "type": "object",
@@ -9,7 +9,7 @@
         "title": "Name",
         "type": "string",
         "required": true,
-        "default": "Example Dynamic Platform"
+        "default": "Fujitsu AC"
       }
     }
   }
