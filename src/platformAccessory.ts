@@ -101,7 +101,7 @@ export class FujitsuACAccessory {
     this.updateTempe();
     this.isActive = value as boolean;
     if (this.isActive) {
-      this.acApi('on');
+      this.acApi('on/auto');
     } else {
       this.acApi('off');
     }
